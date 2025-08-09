@@ -1,0 +1,45 @@
+name: Deploy to Hetzner
+
+on:
+    push:
+        branches:
+            - master
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up SSH
+              uses: webfactory/ssh-agent@v0.9.0
+              with:
+                  ssh-private-key: ${{ secrets.SSH_KEY }}
+
+            - name: Deploy to server
+              run: |
+                  ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+                  set -e
+                  cd ~/programming/docker_container/npm_portainer_container
+
+                  echo "🔄 Pulling latest changes from Git..."
+                  git reset --hard
+                  git pull origin master
+
+                  echo "📦 Pulling latest Docker images..."
+                  docker compose pull
+
+                  echo "🛑 Stopping and removing old containers..."
+                  docker compose down
+
+                  echo "🚀 Starting containers with updated configuration..."
+                  docker compose up -d --remove-orphans
+
+                  echo "🧹 Removing unused images..."
+                  docker image prune -f
+
+                  echo "✅ Deployment completed successfully."
+                  EOF
