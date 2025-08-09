@@ -1,19 +1,15 @@
 # Database Stack with PostgreSQL, PgAdmin, MongoDB, and Mongo Express
-
 This project deploys a complete database management environment using **Docker Compose**.  
 All services are isolated from the outside world and only accessible via **Nginx Proxy Manager** (NPM).
 
 ---
-
 ## 📦 Services
-
 1. **PostgreSQL** – Relational database
 2. **PgAdmin** – Web-based PostgreSQL administration
 3. **MongoDB** – NoSQL database
 4. **Mongo Express** – Web-based MongoDB administration
 
 ---
-
 ## 📁 Project Structure
 
 ```
@@ -21,13 +17,9 @@ All services are isolated from the outside world and only accessible via **Nginx
 ├── docker-compose.yml
 └── .env
 ```
-
 ---
-
 ## ⚙️ Environment Variables
-
 Create a `.env` file in the project root with the following content:
-
 ```env
 # PostgreSQL
 POSTGRES_DB=postgres
@@ -47,13 +39,9 @@ MONGO_DB=mydb
 ME_BASIC_USER=admin
 ME_BASIC_PASS=secretpassword
 ```
-
 > **Note:** Change all default passwords before deploying.
-
 ---
-
 ## 🚀 Deployment
-
 1. Make sure **Docker** and **Docker Compose** are installed on your server.
 2. Clone the repository:
    ```bash
@@ -69,14 +57,10 @@ ME_BASIC_PASS=secretpassword
    ```bash
    docker ps
    ```
-
 ---
-
 ## 🌐 Access via Nginx Proxy Manager
-
 All web UIs (**PgAdmin** and **Mongo Express**) are exposed only on the internal `npm_net` network.  
 To access them:
-
 1. Open **Nginx Proxy Manager**.
 2. Create a **Proxy Host** for each service:
    - **PgAdmin**:  
@@ -88,31 +72,20 @@ To access them:
      - Forward Hostname/IP: `MongoDB-Express`  
      - Forward Port: `8081`
 3. Enable SSL (Let's Encrypt) if desired.
-
 ---
-
 ## 🔒 Security Notes
-
 - Databases are **not** exposed to the internet (`ports` are not published).
 - Access to web UIs is secured via **NPM** and **basic authentication**.
 - Always use **strong passwords** and **HTTPS**.
-
 ---
-
 ## 🛑 Stopping the Stack
-
 ```bash
 docker compose down
 ```
-
 To remove all data volumes as well:
-
 ```bash
 docker compose down -v
 ```
-
 ---
-
 ## 🧾 License
-
 MIT License
