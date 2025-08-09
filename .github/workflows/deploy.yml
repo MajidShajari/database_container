@@ -23,7 +23,7 @@ jobs:
               run: |
                   ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
                   set -e
-                  cd ~/programming/docker_container/npm_portainer_container
+                  cd ~/programming/docker_container/database_container
 
                   echo "🔄 Pulling latest changes from Git..."
                   git reset --hard
